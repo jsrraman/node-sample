@@ -2,6 +2,8 @@
 
 const http = require('http');
 const url = require('url');
+const qs = require('querystring');
+const constants = require('./constants.js');
 
 let routes = {
     'GET': {
@@ -22,10 +24,27 @@ let routes = {
 
             req.on('data', data => {
                 body += data;
+
+                console.log(body.length);
+
+                // This is safe guard against the maximum pay load data that can be accepted
+                if (body.length > constants.MAX_FILE_UPLOAD_LIMIT) {
+                    res.writeHead(413, {'Content-type': 'text/html'});
+                    res.end('<h1>' + 'The upper limit of file size to be uploaded is ' +
+                        constants.MAX_FILE_UPLOAD_LIMIT + '</h1>');
+
+                    // Destroy the request
+                    req.connection.destroy();
+                }
             });
 
             req.on('end', () => {
-                console.log(body);
+                //console.log(body);
+                let queryParams = qs.parse(body);
+
+                console.log("username->" + queryParams.username);
+                console.log("password->" + queryParams.password);
+
                 res.end();
             });
         }
