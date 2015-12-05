@@ -21,18 +21,16 @@ function fileAccess(filePath) {
     });
 }
 
+// The fs.readFile() just reads all the data in memory at one go and
+// returns the whole content (not so efficient)
 function fileReader(filePath) {
     return new Promise((resolve, reject) => {
-        // The below code creates a stream and the data will be read via even emitters
-        // like 'open' and 'error' interfaces of fileStream
-        let fileStream = fs.createReadStream(filePath);
-
-        fileStream.on('open', () => {
-            resolve(fileStream);
-        });
-
-        fileStream.on('error', error => {
-            reject(error);
+        fs.readFile(filePath, (error, content) => {
+            if (!error) {
+                resolve(content)
+            } else {
+                reject(error);
+            }
         });
     })
 }
@@ -59,16 +57,11 @@ function webServer(req, res) {
 
     fileAccess(filePath)
         .then(fileReader)
-        .then(fileStream=> {
+        .then(content=> {
             let contentType = mimeTypes[path.extname(filePath)];
 
             res.writeHead(200, {'Content-type': contentType});
-
-            // res.end will dump the entire content to the client, which is inefficient.
-            //res.end(content, 'utf-8');
-
-            // Pipe the streamed content (chunks of data) to the response
-            fileStream.pipe(res);
+            res.end(content, 'utf-8');
         })
         .catch(()=> {
             // Serve a 404 error
