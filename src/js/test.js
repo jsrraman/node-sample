@@ -1,7 +1,7 @@
 'use strict';
 
 /******************************************************************
- Illustration: exporting function vs object from a module
+ Illustration: exporting constructor function vs object from a module
  ******************************************************************/
 
 /******************************************************************
