@@ -17,8 +17,8 @@
  ******************************************************************/
 
 /********************************************************************
- This exports a function which returns an object with a property called printMe
- which is of type function
+ This exports a constructor function -
+ https://blog.pivotal.io/labs/labs/javascript-constructors-prototypes-and-the-new-keyword
  ********************************************************************/
 //module.exports = function () {
 //    return {
@@ -39,7 +39,7 @@
  *****************************************************************/
 
 /********************************************************************
- This exports an object with a property called printM which is of type function
+ This exports an object with a property called printMe which is of type function
  ********************************************************************/
 module.exports = {
     printMe: function () {
