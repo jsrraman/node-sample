@@ -31,7 +31,7 @@
 /******************************************************************
  Convention 2
 
- In the calling module (assume appTest.js in the same directory),
+ In the calling module (assume appTestjs in the same directory),
  you should call like the following
 
  const test = require('./test.js');

@@ -3,7 +3,7 @@
 const http = require('http');
 const url = require('url');
 const qs = require('querystring');
-const constants = require('./constants.js');
+const constants = require('./../constants.js');
 
 let routes = {
     'GET': {
